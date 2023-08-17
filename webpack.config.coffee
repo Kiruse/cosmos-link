@@ -1,9 +1,20 @@
 path = require 'path'
-HtmlWebpackPlugin = require 'html-webpack-plugin'
+PugPlugin = require 'pug-plugin'
+
+ASSETSPATH = path.resolve __dirname, 'assets'
+VIEWPATH   = path.resolve __dirname, 'views'
+JSPATH     = path.resolve __dirname, 'src'
 
 module.exports =
   entry:
-    index: './src/index.coffee'
+    index: path.resolve VIEWPATH, 'index.pug'
+  resolve:
+    extensions: ['.coffee', '.js', '.pug', '.sass', '.scss']
+    alias:
+      '~assets': ASSETSPATH
+      '~style': path.resolve ASSETSPATH, 'styles'
+      '~js': JSPATH
+      '~view': VIEWPATH
   output:
     path: path.resolve __dirname, 'public'
     filename: '[name].js'
@@ -14,20 +25,20 @@ module.exports =
     ,
       test: /\.s[ac]ss$/
       use: [
-        'style-loader'
         'css-loader'
         'sass-loader'
       ]
     ,
       test: /\.pug$/
-      use: 'pug-loader'
+      use: PugPlugin.loader
+    ,
+      test: /\.(png|svg|jpg|gif)$/
+      use: 'file-loader'
     ]
   plugins: [
-    new HtmlWebpackPlugin
-      template: './assets/index.pug'
-      filename: '[name].html'
+    new PugPlugin
+      js:
+        filename: 'assets/js/[name].js'
+      css:
+        filename: 'assets/styles/[name].css'
   ]
-  devServer:
-    static:
-      directory: path.resolve __dirname, 'assets/public'
-    port: 8080

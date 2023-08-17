@@ -7,7 +7,7 @@
   "license": "LGPL-3.0",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "watch": "webpack serve --mode development"
+    "watch": "webpack --watch --mode development"
   },
   "dependencies": {
     "jsonwebtoken": "^9.0.1"
@@ -16,15 +16,13 @@
     "coffee-loader": "^4.0.0",
     "coffeescript": "^2.7.0",
     "css-loader": "^6.8.1",
-    "html-webpack-plugin": "^5.5.3",
     "pug": "^3.0.2",
-    "pug-loader": "^2.4.0",
+    "pug-plugin": "^4.9.9",
     "sass": "^1.65.1",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-cli": "^5.1.4"
   },
   "private": true
 }

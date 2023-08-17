@@ -1,0 +1,24 @@
+- const urlADR036 = 'https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-036-arbitrary-signature.md'
+- const email = 'contact.rabp1@simplelogin.com'
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(charset='utf-8')
+    title Cosmos Link
+    meta(name='description', content='Link your Cosmos Wallet with your favorite apps')
+    script(src=require('~js/home.coffee'))
+    link(rel='stylesheet', href=require('~style/global.sass'))
+  body
+    #omega: #root
+      h1.page-title.text-center Cosmos Link
+      noscript.text-center.italic
+        p Sorry, every dApp requires JavaScript. Please enable JavaScript if you wish to link your wallet.
+      p
+        | #[i Cosmos Link] is in #[i alpha]. This means it is currently only able to link #[i Cosmos]
+        | wallets to my own projects through a gasless off-chain message in the
+        | #[a(href=urlADR036 target='_blank') ADR 036] format.
+      p.italic Placeholder
+      p
+        | If you are interested in using #[i Cosmos Link] for your own project,
+        | #[a(href=`mailto:${email}`) drop me an email].
