@@ -8,17 +8,16 @@ html
     title Cosmos Link
     meta(name='description', content='Link your Cosmos Wallet with your favorite apps')
     script(src=require('~js/home.coffee'))
-    link(rel='stylesheet', href=require('~style/global.sass'))
+    link(rel='stylesheet' href=require('~style/global.sass'))
+    link(rel='stylesheet' href=require('~style/home.sass'))
   body
     #omega: #root
-      h1.page-title.text-center Cosmos Link
-      noscript.text-center.italic
-        p Sorry, every dApp requires JavaScript. Please enable JavaScript if you wish to link your wallet.
-      p
-        | #[i Cosmos Link] is in #[i alpha]. This means it is currently only able to link #[i Cosmos]
-        | wallets to my own projects through a gasless off-chain message in the
-        | #[a(href=urlADR036 target='_blank') ADR 036] format.
-      p.italic Placeholder
-      p
-        | If you are interested in using #[i Cosmos Link] for your own project,
-        | #[a(href=`mailto:${email}`) drop me an email].
+      header: h1 Cosmos Link
+      main
+        noscript.text-center.italic
+          p Sorry, every dApp requires JavaScript. Please enable JavaScript if you wish to link your wallet.
+        p #[i Cosmos Link] is in #[i alpha]. Please keep this in mind while using this micro-dApp.
+        button#connect-wallet connect wallet
+        p
+          | If you are interested in using #[i Cosmos Link] for your own project or have other
+          | questions, #[a(href=`mailto:${email}`) drop me an email].

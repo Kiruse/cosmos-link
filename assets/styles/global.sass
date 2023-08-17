@@ -1,5 +1,12 @@
+$background: #101019
+$primary: #360465
+$secondary: #0EEE35
+$lineColor: #0EEE35
+$fontColor: white
+
 html, body
   font-size: 16px
+  color: $fontColor
   margin: 0
   padding: 0
 
@@ -26,10 +33,18 @@ p
   box-sizing: border-box
 
 a, a:visited
-  color: blue
+  color: $secondary
   text-decoration: none
   &:hover
     text-decoration: underline
+
+button, .button
+  font-size: 1rem
+  padding: 1rem 1.5rem
+  color: $secondary
+  background: transparent
+  border: 1px solid $secondary
+  cursor: pointer
 
 #omega
   position: absolute
@@ -41,14 +56,4 @@ a, a:visited
   flex-direction: column
   align-items: center
   padding: 20px
-  background: #999
-#root
-  flex: 1
-  flex-direction: column
-  align-items: stretch
-  max-width: 1200px
-  padding: 20px
-  background: white
-  border-radius: 20px
-  border: 1px solid #ccc
-  overflow: auto
+  background: $background
