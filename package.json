@@ -10,6 +10,7 @@
     "watch": "node scripts/build.mjs -w"
   },
   "dependencies": {
+    "classnames": "^2.3.2",
     "jsonwebtoken": "^9.0.1",
     "qrcode": "^1.5.3",
     "vue": "3.2"
@@ -21,6 +22,7 @@
     "coffee-loader": "^4.0.0",
     "coffeescript": "^2.7.0",
     "css-loader": "^6.8.1",
+    "file-loader": "^6.2.0",
     "node-watch": "^0.7.4",
     "pug": "^3.0.2",
     "pug-plugin": "^4.9.9",

@@ -11,14 +11,17 @@ module.exports =
   entry:
     index: path.resolve ASSETSPATH, 'app.pug'
   resolve:
-    extensions: ['.coffee', '.js', '.pug', '.sass', '.scss', '.vue']
+    extensions: [
+      '.coffee', '.js', '.pug', '.sass', '.scss', '.vue',
+      '.png', '.svg', '.jpg', '.gif',
+    ]
     alias:
       vue: 'vue/dist/vue.cjs.js'
-      '~assets': ASSETSPATH
-      '~style': path.resolve ASSETSPATH, 'styles'
-      '~lib': LIBPATH
-      '~view': VIEWPATH
-      '~comp': COMPONENTSPATH
+      '@/assets': ASSETSPATH
+      '@/style': path.resolve ASSETSPATH, 'styles'
+      '@/lib': LIBPATH
+      '@/view': VIEWPATH
+      '@/comp': COMPONENTSPATH
   output:
     path: path.resolve __dirname, 'public'
     filename: '[name].js'

@@ -1,3 +1,5 @@
+@use 'sass:color'
+
 $background: #101019
 $primary: #360465
 $secondary: #0EEE35
@@ -45,6 +47,11 @@ button, .button
   background: transparent
   border: 1px solid $secondary
   cursor: pointer
+
+  &:disabled
+    $color: color.scale($secondary, $lightness: -50%)
+    border-color: $color
+    color: $color
 
 #omega
   position: absolute

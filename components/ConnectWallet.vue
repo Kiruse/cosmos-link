@@ -1,14 +1,27 @@
 <template lang="pug">
-button(:disabled='disabled' @click='onClick').ConnectWallet connect wallet
+button(:disabled='busy || disabled' @click='onClick').ConnectWallet connect wallet
 </template>
 
 <script lang="coffee">
-import * as Wallet from '~lib/wallet'
+import * as Wallet from '@/lib/wallet'
+import { selected } from '@/comp/WalletSwitch'
 
 export default
+  setup: ->
+    return {
+      selected,
+    }
   data: ->
-    disabled: true
+    busy: false
+  computed:
+    disabled: -> !@selected
   methods:
     onClick: ->
-      console.log Wallet
+      @busy = true
+      try
+        wallet = Wallet.wallet @selected
+        await wallet.connect 'phoenix-1'
+        @$emit 'connect', wallet
+      finally
+        @busy = false
 </script>
