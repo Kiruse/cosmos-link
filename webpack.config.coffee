@@ -1,20 +1,24 @@
 path = require 'path'
 PugPlugin = require 'pug-plugin'
+{VueLoaderPlugin} = require 'vue-loader'
 
-ASSETSPATH = path.resolve __dirname, 'assets'
-VIEWPATH   = path.resolve __dirname, 'views'
-JSPATH     = path.resolve __dirname, 'src'
+ASSETSPATH     = path.resolve __dirname, 'assets'
+VIEWPATH       = path.resolve __dirname, 'views'
+LIBPATH        = path.resolve __dirname, 'lib'
+COMPONENTSPATH = path.resolve __dirname, 'components'
 
 module.exports =
   entry:
-    index: path.resolve VIEWPATH, 'index.pug'
+    index: path.resolve ASSETSPATH, 'app.pug'
   resolve:
-    extensions: ['.coffee', '.js', '.pug', '.sass', '.scss']
+    extensions: ['.coffee', '.js', '.pug', '.sass', '.scss', '.vue']
     alias:
+      vue: 'vue/dist/vue.cjs.js'
       '~assets': ASSETSPATH
       '~style': path.resolve ASSETSPATH, 'styles'
-      '~js': JSPATH
+      '~lib': LIBPATH
       '~view': VIEWPATH
+      '~comp': COMPONENTSPATH
   output:
     path: path.resolve __dirname, 'public'
     filename: '[name].js'
@@ -23,22 +27,33 @@ module.exports =
       test: /\.coffee$/
       use: 'coffee-loader'
     ,
-      test: /\.s[ac]ss$/
+      test: /\.sass$/
       use: [
-        'css-loader'
-        'sass-loader'
+        'vue-style-loader',
+        'css-loader',
+          loader: 'sass-loader'
+          options:
+            sassOptions:
+              indentedSyntax: true
       ]
     ,
       test: /\.pug$/
-      use: PugPlugin.loader
+      oneOf: [
+        resourceQuery: /^\?vue/
+        use: 'vue-pug-loader'
+      ,
+        use: PugPlugin.loader
+      ]
+    ,
+      test: /\.vue$/
+      use: 'vue-loader'
     ,
       test: /\.(png|svg|jpg|gif)$/
       use: 'file-loader'
     ]
   plugins: [
+    new VueLoaderPlugin()
     new PugPlugin
-      js:
-        filename: 'assets/js/[name].js'
-      css:
-        filename: 'assets/styles/[name].css'
+      template: path.resolve ASSETSPATH, 'app.pug'
+      filename: '[name].html'
   ]
