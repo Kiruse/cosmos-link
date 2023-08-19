@@ -7,7 +7,7 @@
   "license": "LGPL-3.0",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "watch": "node scripts/build.mjs -w"
+    "watch": "webpack --watch --mode development"
   },
   "dependencies": {
     "classnames": "^2.3.2",
@@ -18,14 +18,15 @@
   "devDependencies": {
     "@vue/compiler-dom": "^3.3.4",
     "@vue/compiler-sfc": "^3.3.4",
-    "@webdiscus/pug-loader": "^2.10.5",
     "coffee-loader": "^4.0.0",
     "coffeescript": "^2.7.0",
     "css-loader": "^6.8.1",
     "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.3",
     "node-watch": "^0.7.4",
     "pug": "^3.0.2",
-    "pug-plugin": "^4.9.9",
+    "pug-html-loader": "^1.1.5",
+    "raw-loader": "^4.0.2",
     "rimraf": "^5.0.1",
     "sass": "^1.65.1",
     "sass-loader": "^13.3.2",

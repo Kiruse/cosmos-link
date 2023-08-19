@@ -1,5 +1,5 @@
 path = require 'path'
-PugPlugin = require 'pug-plugin'
+HtmlWebpackPlugin = require 'html-webpack-plugin'
 {VueLoaderPlugin} = require 'vue-loader'
 
 ASSETSPATH     = path.resolve __dirname, 'assets'
@@ -9,7 +9,7 @@ COMPONENTSPATH = path.resolve __dirname, 'components'
 
 module.exports =
   entry:
-    index: path.resolve ASSETSPATH, 'app.pug'
+    index: path.resolve ASSETSPATH, 'app.coffee'
   resolve:
     extensions: [
       '.coffee', '.js', '.pug', '.sass', '.scss', '.vue',
@@ -45,7 +45,7 @@ module.exports =
         resourceQuery: /^\?vue/
         use: 'vue-pug-loader'
       ,
-        use: PugPlugin.loader
+        use: ['raw-loader', 'pug-html-loader']
       ]
     ,
       test: /\.vue$/
@@ -56,7 +56,7 @@ module.exports =
     ]
   plugins: [
     new VueLoaderPlugin()
-    new PugPlugin
+    new HtmlWebpackPlugin
       template: path.resolve ASSETSPATH, 'app.pug'
       filename: '[name].html'
   ]

@@ -3,8 +3,8 @@
   header: h1 Cosmos Link
   main
     p #[i Cosmos Link] is in #[i alpha]. Please keep this in mind while using this micro-dApp.
-    WalletSwitch
     if !wallet
+      WalletSwitch
       ConnectWallet(@connect='onConnect')
     else
       div Placeholder :)

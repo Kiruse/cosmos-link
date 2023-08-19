@@ -23,16 +23,6 @@ await rimraf(filepath('public'));
 console.log('Building...');
 await rebuild();
 
-if (process.argv.includes('-w') || process.argv.includes('--watch')) {
-  await Promise.all([
-    watch('assets'),
-    watch('components'),
-    watch('lib'),
-    watch('views'),
-  ]);
-  console.log('Watching for changes...');
-}
-
 async function rebuild() {
   if (global._rebuildAbort) {
     global._rebuildAbort.abort()
@@ -44,24 +34,4 @@ async function rebuild() {
     fs.cp(filepath('assets/public'), filepath('public'), { recursive: true }),
   ]);
   global._rebuildAbort = null;
-}
-
-async function watch(file) {
-  const {default: watch} = await import('node-watch');
-  watch(filepath(file), {recursive: true}, watcher);
-}
-
-async function watcher(event, filepath) {
-  if (global._rebuildAbort) {
-    process.stdout.write(' aborted\n');
-  }
-
-  process.stdout.write('Rebuilding...');
-  try {
-    await rebuild();
-    process.stdout.write(' done\n');
-  } catch (err) {
-    if (err.code !== 'ABORT_ERR')
-      throw err;
-  }
 }
