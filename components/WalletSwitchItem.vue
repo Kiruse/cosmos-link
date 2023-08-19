@@ -19,14 +19,12 @@
 </style>
 
 <script lang="coffee">
-import cx from 'classnames'
-
 export default
   props:
     selected: Boolean
     disabled: Boolean
   computed:
-    classes: -> cx
+    classes: ->
       'WalletSwitch-selected': @selected
       'WalletSwitch-disabled': @disabled
 </script>

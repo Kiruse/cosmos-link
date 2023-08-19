@@ -8,7 +8,7 @@
       WalletSwitch
       ConnectWallet(@connect='onConnect')
     else
-      LoginButton(:wallet='wallet')
+      LoginButton
     p
       | If you are interested in using #[i Cosmos Link] for your own project or have other
       | questions, #[a(href=`mailto:${email}`) drop me an email].
@@ -29,6 +29,7 @@
 import ConnectWallet from '@/comp/ConnectWallet.vue'
 import WalletSwitch from '@/comp/WalletSwitch.vue'
 import LoginButton from '@/comp/LoginButton.vue'
+import { useWallets } from '@/store/wallet-switch'
 
 export default
   components: {
@@ -36,8 +37,9 @@ export default
     WalletSwitch,
     LoginButton,
   }
-  data: ->
-    wallet: null
+  setup: ->
+    { wallet } = useWallets()
+    return { wallet }
   methods:
     onConnect: (wallet) -> @wallet = wallet
 </script>

@@ -1,29 +1,30 @@
 <template lang="pug">
-Button(:disabled='busy || disabled' @click='onClick').ConnectWallet connect wallet
+Button(:loading='loading' :disabled='disabled' @click='onClick').ConnectWallet connect wallet
 </template>
 
 <script lang="coffee">
 import * as Wallet from '@/lib/wallet'
 import Button from '@/comp/Button'
-import { selected } from '@/comp/WalletSwitch'
+import { useWallets } from '@/store/wallet-switch'
 
 export default
   components: { Button }
   setup: ->
-    return {
-      selected,
-    }
+    { wallet, selectedWallet } = useWallets()
+    return { wallet, selectedWallet }
   data: ->
-    busy: false
+    loading: false
   computed:
-    disabled: -> !@selected
+    disabled: -> !@selectedWallet
   methods:
     onClick: ->
-      @busy = true
+      @loading = true
       try
-        wallet = Wallet.wallet @selected
+        wallet = Wallet.wallet @selectedWallet
         await wallet.connect 'phoenix-1'
-        @$emit 'connect', wallet
+        @wallet = wallet
+      catch error
+        console.error 'Failed to enable wallet:', error
       finally
-        @busy = false
+        @loading = false
 </script>

@@ -30,26 +30,16 @@
 </style>
 
 <script lang="coffee">
-import cs from 'classnames'
-import { ref } from 'vue'
-import * as Wallet from '@/lib/wallet'
 import WalletSwitchItem from './WalletSwitchItem.vue'
-
-export selected = ref(undefined)
-wallets = ref({})
-
-window.addEventListener 'load', ->
-  wallets.value = Wallet.detect()
+import { useWallets } from '@/store/wallet-switch'
 
 export default
   components: {
     WalletSwitchItem,
   }
   setup: ->
-    return {
-      selected,
-      wallets,
-    }
+    { wallets, selectedWallet } = useWallets()
+    return { wallets, selected: selectedWallet }
   methods:
-    select: (type) -> selected.value = type if !!wallets.value[type]
+    select: (type) -> @selected = type if !!@wallets[type]
 </script>

@@ -22,6 +22,7 @@ module.exports =
       '@/lib': LIBPATH
       '@/view': VIEWPATH
       '@/comp': COMPONENTSPATH
+      '@/store': path.resolve __dirname, 'stores'
   output:
     path: path.resolve __dirname, 'public'
     filename: '[name].js'
