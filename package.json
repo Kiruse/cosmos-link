@@ -10,12 +10,16 @@
     "watch": "webpack --watch --mode development"
   },
   "dependencies": {
+    "@keplr-wallet/cosmos": "^0.12.20",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@vercel/node": "^2.15.10",
     "jsonwebtoken": "^9.0.1",
     "qrcode": "^1.5.3",
     "seedrandom": "^3.0.5",
     "vue": "3.2"
   },
   "devDependencies": {
+    "@types/seedrandom": "^3.0.5",
     "@vue/compiler-dom": "^3.3.4",
     "@vue/compiler-sfc": "^3.3.4",
     "coffee-loader": "^4.0.0",
@@ -31,6 +35,8 @@
     "sass": "^1.65.1",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
     "vue-loader": "^17.2.2",
     "vue-pug-loader": "^1.1.29",
     "vue-style-loader": "^4.1.3",

@@ -12,17 +12,18 @@ module.exports =
     index: path.resolve ASSETSPATH, 'app.coffee'
   resolve:
     extensions: [
-      '.coffee', '.js', '.pug', '.sass', '.scss', '.vue',
+      '.coffee', '.js', '.ts', '.pug', '.sass', '.scss', '.vue',
       '.png', '.svg', '.jpg', '.gif',
     ]
     alias:
       vue: 'vue/dist/vue.cjs.js'
       '@/assets': ASSETSPATH
-      '@/style': path.resolve ASSETSPATH, 'styles'
-      '@/lib': LIBPATH
-      '@/view': VIEWPATH
-      '@/comp': COMPONENTSPATH
-      '@/store': path.resolve __dirname, 'stores'
+      '@/style':  path.resolve ASSETSPATH, 'styles'
+      '@/lib':    LIBPATH
+      '@/view':   VIEWPATH
+      '@/comp':   COMPONENTSPATH
+      '@/store':  path.resolve __dirname, 'stores'
+      '@/api':    path.resolve __dirname, 'api'
   output:
     path: path.resolve __dirname, 'public'
     filename: '[name].js'
@@ -30,6 +31,9 @@ module.exports =
     rules: [
       test: /\.coffee$/
       use: 'coffee-loader'
+    ,
+      test: /\.ts$/
+      use: 'ts-loader'
     ,
       test: /\.sass$/
       use: [

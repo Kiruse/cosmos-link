@@ -1,4 +1,5 @@
-{DEFAULT_CHAINID, getCode} = require '@/lib/helpers'
+{DEFAULT_CHAINID} = require '@/lib/helpers'
+{getLoginMessage} = require '@/api/_common'
 
 module.exports = class KeplrWallet
   connect: (chainId = DEFAULT_CHAINID) -> await window.keplr.enable chainId
@@ -6,9 +7,7 @@ module.exports = class KeplrWallet
 
   signLogin: (chainId = DEFAULT_CHAINID) ->
     {algo, bech32Address: addr, pubKey} = await window.keplr.getKey chainId
-    code = getCode()
-    msg = "I certify ownership over wallet #{addr}.\n\nCode: #{code}"
-    {signature: sig} = await signArbitrary chainId, msg
+    {signature: sig} = await signArbitrary chainId, getLoginMessage(addr)
     return { algo, addr, pubKey, sig }
 
 signArbitrary = (chainId, msg) ->

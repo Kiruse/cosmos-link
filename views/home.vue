@@ -9,6 +9,7 @@
       ConnectWallet(@connect='onConnect')
     else
       LoginButton
+    Notices
     p
       | If you are interested in using #[i Cosmos Link] for your own project or have other
       | questions, #[a(href=`mailto:${email}`) drop me an email].
@@ -27,15 +28,21 @@
 
 <script lang="coffee">
 import ConnectWallet from '@/comp/ConnectWallet.vue'
-import WalletSwitch from '@/comp/WalletSwitch.vue'
+import Notices, { showNotices } from '@/comp/Notices.vue'
 import LoginButton from '@/comp/LoginButton.vue'
+import WalletSwitch from '@/comp/WalletSwitch.vue'
 import { useWallets } from '@/store/wallet-switch'
+import { getQueryParam } from '@/lib/helpers'
+
+unless url = getQueryParam 'redirect'
+  showNotices 'warn', [{ name: 'Attention', message: 'No redirect URL provided. This is a problem with the dApp that brought you here.' }]
 
 export default
   components: {
     ConnectWallet,
-    WalletSwitch,
+    Notices,
     LoginButton,
+    WalletSwitch,
   }
   setup: ->
     { wallet } = useWallets()
