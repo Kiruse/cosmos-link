@@ -1,4 +1,5 @@
 <template lang="pug">
+- const email = 'contact.rabp1@simplelogin.com'
 #home
   header: h1 Cosmos Link
   main
@@ -7,7 +8,7 @@
       WalletSwitch
       ConnectWallet(@connect='onConnect')
     else
-      div Placeholder :)
+      LoginButton(:wallet='wallet')
     p
       | If you are interested in using #[i Cosmos Link] for your own project or have other
       | questions, #[a(href=`mailto:${email}`) drop me an email].
@@ -27,11 +28,13 @@
 <script lang="coffee">
 import ConnectWallet from '@/comp/ConnectWallet.vue'
 import WalletSwitch from '@/comp/WalletSwitch.vue'
+import LoginButton from '@/comp/LoginButton.vue'
 
 export default
   components: {
     ConnectWallet,
     WalletSwitch,
+    LoginButton,
   }
   data: ->
     wallet: null

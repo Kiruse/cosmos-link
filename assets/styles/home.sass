@@ -1,4 +1,5 @@
-@use "./global"
+@use './_vars'
+@use './global'
 $radius: 6px
 
 #home
@@ -9,13 +10,13 @@ $radius: 6px
   align-self: center
   width: 400px
   background: #303036
-  border: 1px solid global.$lineColor
+  border: 1px solid vars.$lineColor
   border-radius: $radius
 
   > header
     padding: 20px
-    background: global.$primary
-    border-bottom: 1px solid global.$lineColor
+    background: vars.$primary
+    border-bottom: 1px solid vars.$lineColor
     border-radius: $radius $radius 0 0
     h1
       margin: 0
