@@ -1,5 +1,5 @@
 {DEFAULT_CHAINID} = require '@/lib/helpers'
-{getLoginMessage} = require '@/api/_common'
+{getLoginMessage} = require '@common'
 
 module.exports = class KeplrWallet
   connect: (chainId = DEFAULT_CHAINID) -> await window.keplr.enable chainId

@@ -23,7 +23,7 @@ module.exports =
       '@/view':   VIEWPATH
       '@/comp':   COMPONENTSPATH
       '@/store':  path.resolve __dirname, 'stores'
-      '@/api':    path.resolve __dirname, 'api'
+      '@common':  path.resolve __dirname, 'api', '_common.ts'
   output:
     path: path.resolve __dirname, 'public'
     filename: '[name].js'
@@ -58,6 +58,9 @@ module.exports =
     ,
       test: /\.(png|svg|jpg|gif)$/
       use: 'file-loader'
+    ,
+      test: /\.txt$/
+      use: 'raw-loader'
     ]
   plugins: [
     new VueLoaderPlugin()

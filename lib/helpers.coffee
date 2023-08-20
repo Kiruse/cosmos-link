@@ -1,3 +1,5 @@
+{ testTokenID } = require '@common'
+
 exports.DEFAULT_CHAINID = 'phoenix-1'
 
 # see https://stackoverflow.com/a/66046176
@@ -16,14 +18,28 @@ exports.getQueryParam = (name) ->
     .find((param) -> param[0] is name) ? []
   value
 
-exports.login = (wallet) ->
+exports.getTokenID = ->
+  adjectives = require('@/assets/wordlists/adjectives.txt').default.split('\n').map((w) => w.trim()).filter(Boolean)
+  nouns      = require('@/assets/wordlists/nouns.txt').default.split('\n').map((w) => w.trim()).filter(Boolean)
+  unless adjectives.length and nouns.length
+    throw Error "Empty wordlists"
+
+  adj  = adjectives[Math.floor(Math.random() * adjectives.length)]
+  noun = nouns[Math.floor(Math.random() * nouns.length)]
+  num  = Math.floor(Math.random() * 1000).toString().padStart(3, '0')
+  "#{adj} #{noun} #{num}"
+
+exports.login = (tid, wallet) ->
+  unless testTokenID tid
+    throw Error "Invalid token ID: #{tid}"
+
   payload = await wallet.signLogin()
   payload.pubKey = await toBase64 payload.pubKey
   response = await fetch '/api/token',
     method: 'POST'
     headers:
       'Content-Type': 'application/json'
-    body: JSON.stringify payload
+    body: JSON.stringify {payload..., tid}
 
   unless response.ok
     reason = await response.text()

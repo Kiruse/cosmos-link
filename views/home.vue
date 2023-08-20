@@ -1,14 +1,17 @@
 <template lang="pug">
 - const email = 'contact.rabp1@simplelogin.com'
 #home
-  header: h1 Cosmos Link
+  header
+    h1 Cosmos Link
+    if !redirect
+      p#TID Your token ID: #[b= tid]
   main
     p #[i Cosmos Link] is in #[i alpha]. Please keep this in mind while using this micro-dApp.
     if !wallet
       WalletSwitch
       ConnectWallet(@connect='onConnect')
     else
-      LoginButton
+      LoginButton(:tid='tid')
     Notices
     p
       | If you are interested in using #[i Cosmos Link] for your own project or have other
@@ -24,29 +27,10 @@
 
 .ConnectWallet
   align-self: center
+
+#TID
+  text-align: center
+  color: var(--secondary)
 </style>
 
-<script lang="coffee">
-import ConnectWallet from '@/comp/ConnectWallet.vue'
-import Notices, { showNotices } from '@/comp/Notices.vue'
-import LoginButton from '@/comp/LoginButton.vue'
-import WalletSwitch from '@/comp/WalletSwitch.vue'
-import { useWallets } from '@/store/wallet-switch'
-import { getQueryParam } from '@/lib/helpers'
-
-unless url = getQueryParam 'redirect'
-  showNotices 'warn', [{ name: 'Attention', message: 'No redirect URL provided. This is a problem with the dApp that brought you here.' }]
-
-export default
-  components: {
-    ConnectWallet,
-    Notices,
-    LoginButton,
-    WalletSwitch,
-  }
-  setup: ->
-    { wallet } = useWallets()
-    return { wallet }
-  methods:
-    onConnect: (wallet) -> @wallet = wallet
-</script>
+<script lang="coffee" src="./home.coffee"></script>

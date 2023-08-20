@@ -20,3 +20,4 @@ export function getCode() {
   return rnd().toString(36).toUpperCase().slice(2, 10);
 }
 
+export const testTokenID = (tid: string) => /^[a-z]+ [a-z]+ [0-9]{3}$/.test(tid);
