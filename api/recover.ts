@@ -16,9 +16,9 @@ export default async function handler(
   if (!testTokenID(tid))
     return res.status(422).end('Invalid payload');
 
-  const { kv } = require('@vercel/kv');
+  const { kv } = await import('@vercel/kv');
   try {
-    const token = await kv.get(tid);
+    const token = await kv.getdel(tid);
     return res.status(200).end(token);
   } catch (err) {
     return res.status(404);
