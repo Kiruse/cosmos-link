@@ -15,6 +15,7 @@
     "@vercel/kv": "^0.2.2",
     "@vercel/node": "^2.15.10",
     "jsonwebtoken": "^9.0.1",
+    "mongodb": "^5.7.0",
     "qrcode": "^1.5.3",
     "seedrandom": "^3.0.5",
     "vue": "3.2"

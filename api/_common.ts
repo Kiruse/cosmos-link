@@ -1,5 +1,17 @@
 import rng from 'seedrandom'
 
+export type UserPayload = WalletUserPayload | AnonUserPayload;
+
+export type WalletUserPayload = {
+  type: 'wallet';
+  address: string;
+}
+
+export type AnonUserPayload = {
+  type: 'anonymous';
+  id: string;
+}
+
 /**
  * TOTP period duration. Must be long enough to allow sufficient time for signing, sending &
  * processing the message, but short enough to prevent replay attacks.
