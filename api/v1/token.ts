@@ -22,7 +22,7 @@ export interface TokenOptions {
 // THIS DOES NOT CREATE A USER ACCOUNT, because we support different types of accounts
 // (currently anonymous & wallet accounts).
 // Thus, the client decides whether to create a new account, or to upgrade an existing anon account
-// by making a new request to either /api/login or /api/upgrade.
+// by making a new request to either /api/v1/login or /api/v1/upgrade.
 export default async function handler(
   req: VercelRequest,
   res: VercelResponse

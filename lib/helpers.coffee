@@ -35,7 +35,7 @@ exports.login = (tid, wallet) ->
 
   payload = await wallet.signLogin()
   payload.pubKey = await toBase64 payload.pubKey
-  response = await fetch '/api/token',
+  response = await fetch '/api/v1/token',
     method: 'POST'
     headers:
       'Content-Type': 'application/json'
