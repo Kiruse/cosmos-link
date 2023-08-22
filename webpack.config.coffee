@@ -23,7 +23,7 @@ module.exports =
       '@/view':   VIEWPATH
       '@/comp':   COMPONENTSPATH
       '@/store':  path.resolve __dirname, 'stores'
-      '@common':  path.resolve __dirname, 'api', '_common.ts'
+      '@common':  path.resolve __dirname, 'api', 'v1', '_common'
   output:
     path: path.resolve __dirname, 'public'
     filename: '[name].js'
