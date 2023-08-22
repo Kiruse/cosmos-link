@@ -19,8 +19,11 @@ export default async function handler(
   const { kv } = await import('@vercel/kv');
   try {
     const token = await kv.getdel(tid);
-    return res.status(200).end(token);
+    if (token)
+      return res.status(200).end(token);
+    else
+      return res.status(404).end('Not found');
   } catch (err) {
-    return res.status(404);
+    return res.status(404).end('Not found');
   }
 }
