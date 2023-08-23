@@ -12,10 +12,11 @@ export default async function handler(
 ) {
   if (req.method !== 'POST')
     return res.status(405).end('Method not allowed');
-  if (req.headers['content-type'] !== 'application/json')
+  if (req.headers['content-type'] !== 'text/plain')
     return res.status(400).end('Bad request');
 
-  const { anonToken, walletToken } = req.body;
+  const anonToken = req.headers['authorization']?.replace('Bearer ', '');
+  const walletToken = req.body;
   if (!anonToken || !walletToken)
     return res.status(422).end('Invalid payload');
 

@@ -77,7 +77,7 @@ export default async function handler(
 let CERTPEM: string | undefined;
 async function getCert() {
   if (CERTPEM) return CERTPEM;
-  CERTPEM = await fs.readFile(path.join(__dirname, '..', 'assets', 'public', 'cosmos-link.pem'), 'utf8');
+  CERTPEM = await fs.readFile(path.join(__dirname, '../../assets/public/cosmos-link.pem'), 'utf8');
   return CERTPEM
 }
 

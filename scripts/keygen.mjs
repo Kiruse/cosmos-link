@@ -3,7 +3,7 @@ import { KeyObject, subtle } from 'crypto'
 import * as fs from 'fs/promises'
 
 const PATH_PRIV = new URL('../.keyfile', import.meta.url);
-const PATH_PUB = new URL('../assets/public/cosmos-link.pem', import.meta.url);
+const PATH_PUB = new URL('../../assets/public/cosmos-link.pem', import.meta.url);
 
 const key = await subtle.generateKey({
   name: 'ECDSA',
