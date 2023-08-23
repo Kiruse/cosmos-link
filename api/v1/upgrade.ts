@@ -4,6 +4,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { collection } from './_mongodb';
 import { verifyToken } from './token';
+import { getAuthToken } from '../_utils';
 
 // Upgrade an anonymous account to a wallet-based account
 export default async function handler(
@@ -15,7 +16,7 @@ export default async function handler(
   if (req.headers['content-type'] !== 'text/plain')
     return res.status(400).end('Bad request');
 
-  const anonToken = req.headers['authorization']?.replace('Bearer ', '');
+  const anonToken = getAuthToken(req);
   const walletToken = req.body;
   if (!anonToken || !walletToken)
     return res.status(422).end('Invalid payload');
@@ -35,6 +36,7 @@ export default async function handler(
       $set: {
         type: 'wallet',
         address: walletPayload.address,
+        lastLogin: new Date(),
       },
     },
     { returnDocument: 'after' },

@@ -49,9 +49,14 @@ async function handleGetAnonymous(req: VercelRequest, res: VercelResponse) {
   (await collection('users')).insertOne({
     _id: id,
     type: 'anonymous',
+    lastLogin: new Date(),
   });
 
-  return res.status(201).end(token);
+  return res
+    .status(201)
+    .setHeader('Content-Type', 'text/plain')
+    .setHeader('Cache-Control', 'no-store')
+    .end(token);
 }
 
 async function handlePostAnonymous(req: VercelRequest, res: VercelResponse) {
