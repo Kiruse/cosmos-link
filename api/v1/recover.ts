@@ -18,8 +18,7 @@ export default async function handler(
 
   const { kv } = await import('@vercel/kv');
   try {
-    const token = await kv.get(tid); // TODO: use getdel when done testing
-    // const token = await kv.getdel(tid);
+    const token = await kv.getdel(tid);
     if (token)
       return res.status(200).end(token);
     else

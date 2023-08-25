@@ -1,5 +1,6 @@
 import * as fs from 'fs/promises';
 import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
 import * as path from 'path';
 
 import { verifyADR36Amino } from '@keplr-wallet/cosmos';
@@ -120,7 +121,7 @@ export async function getUserFilter(payload: UserPayload) {
     case 'wallet':
       return { address: payload.address };
     case 'anonymous':
-      return { _id: payload.id };
+      return { _id: new ObjectId(payload.id) };
     default:
       throw Error(`Unhandled user type: ${(payload as any).type}`);
   }

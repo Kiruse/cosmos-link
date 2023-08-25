@@ -94,12 +94,15 @@ async function handleWallet(req: VercelRequest, res: VercelResponse) {
   if (!addr) throw Error('No address in payload');
 
   const coll = await collection('users');
-  await coll.findOneAndUpdate(
+  const { matchedCount } = await coll.updateOne(
     { address: addr },
     { $set: { lastLogin: new Date() } },
-    { returnDocument: 'after' },
   );
 
-  return res.status(200).end('OK');
+  if (matchedCount === 0) {
+    return res.status(401).end('Unauthorized');
+  } else {
+    return res.status(200).end('OK');
+  }
 }
 //#endregion Wallet Login
