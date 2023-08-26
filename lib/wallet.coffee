@@ -14,7 +14,7 @@ exports.wallet = byType = (type) ->
 
 exports.detect = ->
   keplr:   'keplr' of window
-  leap:    'leap'  of window
+  leap:    false # 'leap'  of window
   station: false # currently not supported
 
 exports.connect = (type, chainId) ->
