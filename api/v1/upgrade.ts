@@ -39,6 +39,7 @@ export default async function handler(
         address: walletPayload.address,
         lastLogin: new Date(),
       },
+      $unset: { lastAnonLogin: '' },
     });
   }
 

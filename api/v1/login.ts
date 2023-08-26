@@ -46,10 +46,12 @@ async function handleGetAnonymous(req: VercelRequest, res: VercelResponse) {
     expires: '30d',
   });
 
-  (await collection('users')).insertOne({
+  const coll = await collection('users');
+  await coll.insertOne({
     _id: id,
     type: 'anonymous',
     lastLogin: new Date(),
+    lastAnonLogin: new Date(), // used for ttl
   });
 
   return res
@@ -70,7 +72,10 @@ async function handlePostAnonymous(req: VercelRequest, res: VercelResponse) {
 
   (await collection('users')).findOneAndUpdate(
     { _id: new ObjectId(payload.id) },
-    { $set: { lastLogin: new Date() } },
+    { $set: {
+      lastLogin: new Date(),
+      lastAnonLogin: new Date(),
+    } },
     { returnDocument: 'after' },
   );
 
