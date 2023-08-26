@@ -61,6 +61,7 @@ export default async function handler(
   // separate variable here for TS type checking
   const token = createToken({
     type: 'wallet',
+    sub: new ObjectId().toHexString(),
     address: addr,
   });
 
@@ -99,11 +100,11 @@ export function createToken(payload: UserPayload, opts: TokenOptions = {}) {
   );
 }
 
-export async function verifyToken(token: string) {
+export async function verifyToken(token: string): Promise<UserPayload & { exp: number } | null> {
   try {
     return jwt.verify(token, await getCert(), {
       algorithms: ['ES256'],
-    }) as UserPayload;
+    }) as any;
   } catch (err: any) {
     const knownMessages = [
       'jwt expired', 'jwt malformed',
@@ -113,17 +114,6 @@ export async function verifyToken(token: string) {
       console.log(`Error while verifying token ${token}:`, err);
     }
     return null;
-  }
-}
-
-export async function getUserFilter(payload: UserPayload) {
-  switch (payload.type) {
-    case 'wallet':
-      return { address: payload.address };
-    case 'anonymous':
-      return { _id: new ObjectId(payload.id) };
-    default:
-      throw Error(`Unhandled user type: ${(payload as any).type}`);
   }
 }
 //#endregion Token Helpers

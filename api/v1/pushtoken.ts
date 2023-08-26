@@ -1,7 +1,8 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { getUserFilter, verifyToken } from './token';
+import { verifyToken } from './token';
 import { collection } from './_mongodb';
 import { getAuthToken } from '../_utils';
+import { ObjectId } from 'mongodb';
 
 export default async function handler(
   req: VercelRequest,
@@ -34,12 +35,14 @@ async function handlePost(req: VercelRequest, res: VercelResponse) {
     return res.status(422).end('Invalid push token');
 
   const coll = await collection('users');
-  await coll.updateOne(
-    getUserFilter(tokenPayload),
+  const { matchedCount } = await coll.updateOne(
+    { _id: new ObjectId(tokenPayload.sub) },
     {
       $addToSet: { [`pushtokens.${project}`]: pushtoken }
     },
   );
+  if (matchedCount === 0)
+    return res.status(404).end('User not found');
 
   return res.status(201).end('OK');
 }
@@ -60,8 +63,9 @@ async function handleDelete(req: VercelRequest, res: VercelResponse) {
   if (!tokenPayload)
     return res.status(401).end('Unauthorized');
 
-  (await collection('users')).updateOne(
-    getUserFilter(tokenPayload),
+  const coll = await collection('users');
+  await coll.updateOne(
+    { _id: new ObjectId(tokenPayload.sub) },
     {
       $pullAll: { [`pushtokens.${project}`]: [pushtoken] }
     }

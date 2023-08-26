@@ -4,12 +4,13 @@ export type UserPayload = WalletUserPayload | AnonUserPayload;
 
 export type WalletUserPayload = {
   type: 'wallet';
+  sub: string;
   address: string;
 }
 
 export type AnonUserPayload = {
   type: 'anonymous';
-  id: string;
+  sub: string;
 }
 
 /**

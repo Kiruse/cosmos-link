@@ -1,7 +1,8 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { createToken, getUserFilter, verifyToken } from './token';
+import { createToken, verifyToken } from './token';
 import { getAuthToken } from '../_utils';
 import { collection } from './_mongodb';
+import { ObjectId } from 'mongodb';
 
 export default async function handler(
   req: VercelRequest,
@@ -14,7 +15,7 @@ export default async function handler(
   if (!token)
     return res.status(401).end('Unauthorized');
 
-  const payload = await verifyToken(token) as any;
+  const payload = await verifyToken(token);
   if (!payload)
     return res.status(401).end('Unauthorized');
 
@@ -40,13 +41,17 @@ export default async function handler(
     lastLoginData.lastAnonLogin = new Date();
 
   const coll = await collection('users');
-  await coll.updateOne(getUserFilter(payload), { $set: lastLoginData });
+  const { matchedCount } = await coll.updateOne({ _id: new ObjectId(payload.sub) }, { $set: lastLoginData });
+  if (matchedCount === 0)
+    return res.status(404).end('User not found');
+  console.log(await coll.findOne({ _id: new ObjectId(payload.sub) }));
 
   if (!shouldRefresh) {
     return res.status(200).end(token);
   }
 
-  delete payload.exp; // delete existing exp to create a new one
+  //@ts-ignore delete existing exp to create a new one
+  delete payload.exp;
 
   // anon users get 30d because they are not recoverable
   const expires = payload.type === 'anonymous' ? '30d' : undefined;

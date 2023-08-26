@@ -40,7 +40,7 @@ async function handleGetAnonymous(req: VercelRequest, res: VercelResponse) {
 
   const token = createToken({
     type: 'anonymous',
-    id: id.toString(),
+    sub: id.toHexString(),
   }, {
     // anon users get 30d because they are not recoverable
     expires: '30d',
@@ -70,13 +70,15 @@ async function handlePostAnonymous(req: VercelRequest, res: VercelResponse) {
   if (!payload || payload.type !== 'anonymous')
     return res.status(401).end('Unauthorized');
 
-  (await collection('users')).findOneAndUpdate(
-    { _id: new ObjectId(payload.id) },
-    { $set: {
-      lastLogin: new Date(),
-      lastAnonLogin: new Date(),
-    } },
-    { returnDocument: 'after' },
+  const coll = await collection('users');
+  await coll.findOneAndUpdate(
+    { _id: new ObjectId(payload.sub) },
+    {
+      $set: {
+        lastLogin: new Date(),
+        lastAnonLogin: new Date(),
+      },
+    },
   );
 
   return res.status(200).end('OK');
@@ -102,6 +104,7 @@ async function handleWallet(req: VercelRequest, res: VercelResponse) {
   const { matchedCount } = await coll.updateOne(
     { address: addr },
     { $set: { lastLogin: new Date() } },
+    { upsert: true },
   );
 
   if (matchedCount === 0) {

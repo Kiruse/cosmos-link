@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { collection } from './_mongodb';
-import { getUserFilter, verifyToken } from './token';
+import { createToken, verifyToken } from './token';
 import { getAuthToken } from '../_utils';
 
 // Upgrade an anonymous account to a wallet-based account
@@ -32,16 +32,27 @@ export default async function handler(
 
   const coll = await collection('users');
   const doc = await coll.findOne({ address: walletPayload.address });
+  let token: string;
   if (!doc) {
-    await coll.updateOne(getUserFilter(anonPayload), {
-      $set: {
-        type: 'wallet',
-        address: walletPayload.address,
-        lastLogin: new Date(),
+    await coll.updateOne(
+      { _id: new ObjectId(anonPayload.sub) },
+      {
+        $set: {
+          type: 'wallet',
+          address: walletPayload.address,
+          lastLogin: new Date(),
+        },
+        $unset: { lastAnonLogin: '' },
       },
-      $unset: { lastAnonLogin: '' },
+    );
+    token = anonToken;
+  } else {
+    token = createToken({
+      type: 'wallet',
+      sub: doc._id.toHexString(),
+      address: doc.address,
     });
   }
 
-  return res.status(200).end('OK');
+  return res.status(200).end(token);
 }
