@@ -1,6 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { createToken, verifyToken } from './token';
+import { createToken, getUserFilter, verifyToken } from './token';
 import { getAuthToken } from '../_utils';
+import { collection } from './_mongodb';
 
 export default async function handler(
   req: VercelRequest,
@@ -33,6 +34,13 @@ export default async function handler(
       break;
     }
   }
+
+  const lastLoginData: any = { lastLogin: new Date() };
+  if (payload.type === 'anonymous')
+    lastLoginData.lastAnonLogin = new Date();
+
+  const coll = await collection('users');
+  await coll.updateOne(getUserFilter(payload), { $set: lastLoginData });
 
   if (!shouldRefresh) {
     return res.status(200).end(token);
